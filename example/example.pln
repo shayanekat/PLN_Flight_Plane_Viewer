@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+    <FlightPlan.FlightPlan>
+        <Title>ZBAA to WP8</Title>
+        <FPType>VFR</FPType>
+        <RouteType>Direct</RouteType>
+        <CruisingAlt>4500</CruisingAlt>
+        <DepartureID>ZBAA</DepartureID>
+        <DepartureLLA>N40° 4' 24.00",E116° 35' 54.01",+000115.00</DepartureLLA>
+        <DestinationID>WP8</DestinationID>
+        <DestinationLLA>N39° 57' 28.13",E116° 15' 13.43",+004500.00</DestinationLLA>
+        <Descr>ZBAA, WP8</Descr>
+        <DepartureName>Beijing Capital</DepartureName>
+        <DestinationName>WP8</DestinationName>
+        <AppVersion>
+            <AppVersionMajor>11</AppVersionMajor>
+            <AppVersionBuild>282174</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="ZBAA">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N40° 4' 24.00",E116° 35' 54.01",+000115.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ZBAA</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="WP1">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N39° 54' 41.49",E116° 27' 7.71",+004500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="WP2">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N39° 54' 11.01",E116° 25' 15.26",+004500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="WP3">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N39° 52' 53.88",E116° 24' 24.04",+004500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="WP4">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N39° 54' 15.55",E116° 23' 0.62",+004500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="WP5">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N39° 54' 52.82",E116° 23' 26.52",+004500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="WP6">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N39° 59' 27.82",E116° 23' 26.20",+004500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="WP7">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N39° 59' 56.24",E116° 16' 15.78",+004500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="WP8">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N39° 57' 28.13",E116° 15' 13.43",+004500.00</WorldPosition>
+        </ATCWaypoint>
+    </FlightPlan.FlightPlan>
+</SimBase.Document>
