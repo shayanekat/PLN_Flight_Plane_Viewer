@@ -7,7 +7,7 @@ import xmltodict
 import matplotlib.pyplot as plt
 import json
 
-
+#%% function definition part
 def parse_pln_file(filename):
     with open(filename, 'r') as xmlfile:
         xml_string = xmlfile.read()
@@ -40,12 +40,12 @@ def fix_waypoints(source_dictionary):
         latitude_minutes = latitude_minutes.split("'")[0]
         latitude_seconds = latitude_seconds.split('"')[0]
 
-        latitude_degrees = int(latitude_degrees)
+        latitude_degrees = int(latitude_degrees.replace('Â', ''))
         latitude_minutes = int(latitude_minutes)
         latitude_seconds = float(latitude_seconds)
 
         latitude_decimal = latitude_degrees + (latitude_minutes / 60) + (latitude_seconds / 3600)
-        print(str(latitude_degrees), str(latitude_minutes), str(latitude_seconds), ">", str(latitude_decimal))
+        # print(str(latitude_degrees), str(latitude_minutes), str(latitude_seconds), ">", str(latitude_decimal))
 
         if latitude_direction == "S":
             latitude_decimal = -latitude_decimal
@@ -62,7 +62,7 @@ def fix_waypoints(source_dictionary):
         longitude_minutes = longitude_minutes.split("'")[0]
         longitude_seconds = longitude_seconds.split('"')[0]
 
-        longitude_degrees = int(longitude_degrees)
+        longitude_degrees = int(longitude_degrees.replace('Â', ''))
         longitude_minutes = int(longitude_minutes)
         longitude_seconds = float(longitude_seconds)
 
@@ -100,3 +100,29 @@ def simplify_route(source_dictionary):
 def save_json_file(output_filename, source_dictionary):
     with open(output_filename, 'w') as jsonfile:
         json.dump(source_dictionary['SimBase.Document']['FlightPlan.FlightPlan'], jsonfile, indent=4)
+
+
+def display(source_dictionary):
+    # initialize display
+    im = plt.imread("background.png")
+    implot = plt.imshow(im)
+    
+    # process data for plotting
+    dictionnary = simplify_route(source_dictionary)
+    X, Y = [], []
+    for wp in dictionnary['waypoints']:
+        X.append(wp['longitude'])
+        Y.append(wp['latitude'])
+    
+    # plot data
+    plt.plot(X, Y, label='Route')
+    plt.scatter(X, Y, label="waypoints")
+    plt.scatter(X[0], Y[0], label="starting point")
+    plt.scatter(X[-1], Y[-1], label="destination point")
+    
+    plt.title(source_dictionary['SimBase.Document']['FlightPlan.FlightPlan']["Title"])
+    plt.xlabel("longitude (°)")
+    plt.ylabel("latitude (°)")
+    plt.legend()
+    
+    plt.show()
