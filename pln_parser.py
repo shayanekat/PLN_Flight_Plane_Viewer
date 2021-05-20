@@ -1,6 +1,6 @@
 """
 From https://github.com/hankhank10/msfs-pln-file-parser/blob/main/parse_pln.py
-credit to hankhank10
+credit to hankhank10, modified my myself
 """
 
 import xmltodict
@@ -111,8 +111,8 @@ def display(source_dictionary):
     dictionnary = simplify_route(source_dictionary)
     X, Y = [], []
     for wp in dictionnary['waypoints']:
-        X.append(wp['longitude'])
-        Y.append(wp['latitude'])
+        X.append(wp['longitude'] + 180)
+        Y.append(-wp['latitude'] + 90)
     
     # plot data
     plt.plot(X, Y, label='Route')
