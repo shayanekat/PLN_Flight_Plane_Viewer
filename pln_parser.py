@@ -6,6 +6,7 @@ credit to hankhank10
 import xmltodict
 import matplotlib.pyplot as plt
 import json
+import cartopy.crs as ccrs
 
 #%% function definition part
 def parse_pln_file(filename):
@@ -123,6 +124,38 @@ def display(source_dictionary):
     plt.title(source_dictionary['SimBase.Document']['FlightPlan.FlightPlan']["Title"])
     plt.xlabel("longitude (°)")
     plt.ylabel("latitude (°)")
+    plt.legend()
+    
+    plt.show()
+
+def mapview(source_dictionary):
+    """
+    function to get a better display than with the other function
+
+    Args:
+        source_dictionary (dictionnary): the dictionnary with first process
+    """
+    margin = 5
+    # initialize display
+    ax = plt.axes(projection=ccrs.PlateCarree())
+    ax.stock_img()
+
+    # process data for plotting
+    dictionnary = simplify_route(source_dictionary)
+    X, Y = [], []
+    for wp in dictionnary['waypoints']:
+        X.append(wp['longitude'])
+        Y.append(wp['latitude'])
+    
+    ax.set_extent([min(X)-margin, max(X)+margin, min(Y)-margin/2, max(Y)+margin/2], ccrs.PlateCarree())
+    
+    # plot data
+    plt.plot(X, Y, label='Route')
+    plt.scatter(X, Y, label="waypoints")
+    plt.scatter(X[0], Y[0], label="starting point")
+    plt.scatter(X[-1], Y[-1], label="destination point")
+    
+    plt.title(source_dictionary['SimBase.Document']['FlightPlan.FlightPlan']["Title"])
     plt.legend()
     
     plt.show()
