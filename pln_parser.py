@@ -6,6 +6,8 @@ credit to hankhank10, modified my myself
 import xmltodict
 import matplotlib.pyplot as plt
 import json
+import cartopy.crs as ccrs
+import simplekml
 
 #%% function definition part
 def parse_pln_file(filename):
@@ -167,3 +169,51 @@ def display(source_dictionary):
     plt.legend()
     
     plt.show()
+
+def mapview(source_dictionary):
+    """
+    function to get a better display than with the other function
+
+    Args:
+        source_dictionary (dictionnary): the dictionnary with first process
+    """
+    margin = 5
+    # initialize display
+    ax = plt.axes(projection=ccrs.PlateCarree())
+    ax.stock_img()
+
+    # process data for plotting
+    dictionnary = simplify_route(source_dictionary)
+    X, Y = [], []
+    for wp in dictionnary['waypoints']:
+        X.append(wp['longitude'])
+        Y.append(wp['latitude'])
+    
+    ax.set_extent([min(X)-margin, max(X)+margin, min(Y)-margin/2, max(Y)+margin/2], ccrs.PlateCarree())
+    
+    # plot data
+    plt.plot(X, Y, label='Route')
+    plt.scatter(X, Y, label="waypoints")
+    plt.scatter(X[0], Y[0], label="starting point")
+    plt.scatter(X[-1], Y[-1], label="destination point")
+    
+    plt.title(source_dictionary['SimBase.Document']['FlightPlan.FlightPlan']["Title"])
+    plt.legend()
+    
+    plt.show()
+
+def save_kml_file(source_dictionnary):
+    """
+    function to save data into kml file that is openable with google earth
+
+    Args:
+        source_dictionnary (dictionnary): data to convert
+    """
+    # convert & save data
+    filename = "kml_data"
+    
+    kml = simplekml.Kml()
+    for wp in source_dictionnary['waypoints']:
+        kml.newpoint(name=str(wp['id']), coords=[(wp['longitude'], wp['latitude'])])
+    
+    kml.save(filename + '.kml')

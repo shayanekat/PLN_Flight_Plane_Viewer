@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+    <Document id="1">
+        <Placemark id="3">
+            <name>{'id': 0, 'latitude': 40.07333333333334, 'longitude': 116.59833611111111}</name>
+            <Point id="2">
+                <coordinates>116.59833611111111,40.07333333333334,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="5">
+            <name>{'id': 1, 'latitude': 39.911525, 'longitude': 116.45214166666666}</name>
+            <Point id="4">
+                <coordinates>116.45214166666666,39.911525,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="7">
+            <name>{'id': 2, 'latitude': 39.903058333333334, 'longitude': 116.42090555555556}</name>
+            <Point id="6">
+                <coordinates>116.42090555555556,39.903058333333334,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="9">
+            <name>{'id': 3, 'latitude': 39.88163333333333, 'longitude': 116.40667777777779}</name>
+            <Point id="8">
+                <coordinates>116.40667777777779,39.88163333333333,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="11">
+            <name>{'id': 4, 'latitude': 39.90431944444444, 'longitude': 116.38350555555556}</name>
+            <Point id="10">
+                <coordinates>116.38350555555556,39.90431944444444,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="13">
+            <name>{'id': 5, 'latitude': 39.91467222222222, 'longitude': 116.39070000000001}</name>
+            <Point id="12">
+                <coordinates>116.39070000000001,39.91467222222222,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="15">
+            <name>{'id': 6, 'latitude': 39.991061111111115, 'longitude': 116.39061111111111}</name>
+            <Point id="14">
+                <coordinates>116.39061111111111,39.991061111111115,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="17">
+            <name>{'id': 7, 'latitude': 39.998955555555554, 'longitude': 116.27105}</name>
+            <Point id="16">
+                <coordinates>116.27105,39.998955555555554,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="19">
+            <name>{'id': 8, 'latitude': 39.95781388888889, 'longitude': 116.25373055555555}</name>
+            <Point id="18">
+                <coordinates>116.25373055555555,39.95781388888889,0.0</coordinates>
+            </Point>
+        </Placemark>
+    </Document>
+</kml>

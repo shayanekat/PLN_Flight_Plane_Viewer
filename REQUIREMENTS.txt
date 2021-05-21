@@ -1,2 +1,5 @@
-json
 xmltodict
+matplotlib.pyplot
+json
+cartopy.crs
+simplekml
