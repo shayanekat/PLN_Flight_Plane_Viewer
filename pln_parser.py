@@ -1,6 +1,6 @@
 """
 From https://github.com/hankhank10/msfs-pln-file-parser/blob/main/parse_pln.py
-credit to hankhank10
+credit to hankhank10, modified my myself
 """
 
 import xmltodict
@@ -11,6 +11,15 @@ import simplekml
 
 #%% function definition part
 def parse_pln_file(filename):
+    """
+    function to convert data in pln file into python object without any other procssing
+
+    Args:
+        filename (str): directory to pln file
+
+    Returns:
+        dictionnary: python dictionnary contain all data
+    """
     with open(filename, 'r') as xmlfile:
         xml_string = xmlfile.read()
 
@@ -21,6 +30,15 @@ def parse_pln_file(filename):
 
 
 def fix_waypoints(source_dictionary):
+    """
+    function to process waypoints coordinates and convert into decimal coordinates
+
+    Args:
+        source_dictionary (dictionnary): the original dicitionnary
+
+    Returns:
+        dictonnary: dictionnary with the first process done
+    """
     for waypoint in source_dictionary['SimBase.Document']['FlightPlan.FlightPlan']['ATCWaypoint']:
 
         # Split into constituent parts
@@ -79,6 +97,15 @@ def fix_waypoints(source_dictionary):
 
 
 def simplify_route(source_dictionary):
+    """
+    function to simplify the dictionnary by removing all unecessary data
+
+    Args:
+        source_dictionary (dictionnary): the data with first process
+
+    Returns:
+        dictionnary: output dictionnary that is simplified
+    """
     output_dictionary = []
 
     a = 0
@@ -100,11 +127,25 @@ def simplify_route(source_dictionary):
 
 
 def save_json_file(output_filename, source_dictionary):
+    """
+    function to save the data as a json file
+
+    Args:
+        output_filename (string): the name of the json file that will be created
+        source_dictionary (dictionnary): the data you want to convert into json file
+    """
     with open(output_filename, 'w') as jsonfile:
         json.dump(source_dictionary['SimBase.Document']['FlightPlan.FlightPlan'], jsonfile, indent=4)
 
 
 def display(source_dictionary):
+    """
+    function to dislay the waypoints on a world map 
+    (disclaimer : this method is better for IFR liner flight plans because it is not precise)
+
+    Args:
+        source_dictionary (dictionnary): the dictionnary with the first process
+    """
     # initialize display
     im = plt.imread("background.png")
     implot = plt.imshow(im)
@@ -113,8 +154,8 @@ def display(source_dictionary):
     dictionnary = simplify_route(source_dictionary)
     X, Y = [], []
     for wp in dictionnary['waypoints']:
-        X.append(wp['longitude'])
-        Y.append(wp['latitude'])
+        X.append(wp['longitude'] + 180)
+        Y.append(-wp['latitude'] + 90)
     
     # plot data
     plt.plot(X, Y, label='Route')
