@@ -7,6 +7,7 @@ import xmltodict
 import matplotlib.pyplot as plt
 import json
 import cartopy.crs as ccrs
+import simplekml
 
 #%% function definition part
 def parse_pln_file(filename):
@@ -159,3 +160,19 @@ def mapview(source_dictionary):
     plt.legend()
     
     plt.show()
+
+def save_kml_file(source_dictionnary):
+    """
+    function to save data into kml file that is openable with google earth
+
+    Args:
+        source_dictionnary (dictionnary): data to convert
+    """
+    # convert & save data
+    filename = "kml_data"
+    
+    kml = simplekml.Kml()
+    for wp in source_dictionnary['waypoints']:
+        kml.newpoint(name=str(wp['id']), coords=[(wp['longitude'], wp['latitude'])])
+    
+    kml.save(filename + '.kml')
