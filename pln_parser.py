@@ -202,15 +202,16 @@ def mapview(source_dictionary):
     
     plt.show()
 
-def save_kml_file(source_dictionnary):
+def save_kml_file(source_dictionnary, filename):
     """
     function to save data into kml file that is openable with google earth
 
     Args:
         source_dictionnary (dictionnary): data to convert
+        filename (string) the name of the file that will be created
     """
     # convert & save data
-    filename = "kml_data"
+    # filename = "kml_data"
     
     kml = simplekml.Kml()
     for wp in source_dictionnary['waypoints']:

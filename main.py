@@ -12,14 +12,31 @@ methods = (
     "cartopy (low resolution)",
     "file for google earth"
 )
+e = ''
+data = ''
+root2 = ''
 
 # functions
+def save():
+    """
+    function to save the kml file
+    """
+    filename = e.get()
+    processed = pln.simplify_route(data)
+    pln.save_kml_file(processed, filename)
+    
+    l = Label(root2, text="file has been created. go check into your folder")
+    l.grid(row=1, column=0, padx=5, pady=5)
+    
+
 def main():
     """
     main function that is run when clicking on the button on first page
     """
+    global e, data, root2
+    
     # extract data
-    fname = str(e01.get())
+    fname = e01.get()
     data = pln.parse_pln_file(fname)
     data = pln.fix_waypoints(data)
     
@@ -33,8 +50,18 @@ def main():
     
     # kml file case
     elif s11.get() == "file for google earth":
-        processed = pln.simplify_route(data)
-        pln.save_kml_file(processed)
+        # create another window for filename entry
+        root2 = Tk()
+        root2.title("PLN file Viewer")
+        
+        l1 = Label(root2, text="enter file name for the kml file (it will be created were you have installed this app", wraplength=400)
+        l1.grid(row=0, column=0, padx=5, pady=5)
+        
+        e = Entry(root2)
+        e.grid(row=0, column=1, padx=5, pady=5)
+        
+        b = Button(root2, text="save file", command=save)
+        b.grid(row=1, column=1, padx=5, pady=5)
 
 
 #%% FRONTEND
