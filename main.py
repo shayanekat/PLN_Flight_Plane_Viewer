@@ -18,7 +18,23 @@ def main():
     """
     main function that is run when clicking on the button on first page
     """
-    pass
+    # extract data
+    fname = str(e01.get())
+    data = pln.parse_pln_file(fname)
+    data = pln.fix_waypoints(data)
+    
+    # from image case
+    if s11.get() == "from image (lowest resolution)":
+        pln.display(data)
+    
+    # cartopy case
+    elif s11.get() == "cartopy (low resolution)":
+        pln.mapview(data)
+    
+    # kml file case
+    elif s11.get() == "file for google earth":
+        processed = pln.simplify_route(data)
+        pln.save_kml_file(processed)
 
 
 #%% FRONTEND
