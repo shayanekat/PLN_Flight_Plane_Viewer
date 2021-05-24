@@ -1,6 +1,10 @@
+#!/usr/bin/env python
+
 """
 From https://github.com/hankhank10/msfs-pln-file-parser/blob/main/parse_pln.py
 credit to hankhank10, modified my myself
+Shayane Kachera
+Local package
 """
 
 import xmltodict
