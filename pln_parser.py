@@ -218,3 +218,11 @@ def save_kml_file(source_dictionnary, filename):
         kml.newpoint(name=str(wp['id']), coords=[(wp['longitude'], wp['latitude'])])
     
     kml.save(filename + '.kml')
+
+#%% test part
+if __name__ == '__main__':
+    data = parse_pln_file('example.pln') # parse data
+    data = fix_waypoints(data) # first process
+    data_processed = simplify_route(data) # second process
+    save_kml_file(data_processed) # generate kml file
+    # pln_parser.mapview(data) # view data

@@ -1,1 +1,1 @@
-python3 main.py
+D:/Users/shayk/anaconda3/python.exe "c:/Users/shayk/Google Drive/docs/tech/python/PLN_Flight_Plane_Viewer/main.py"
