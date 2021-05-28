@@ -9,7 +9,6 @@ import pln_parser as pln
 # init variables
 methods = (
     "from image (lowest resolution)",
-    "cartopy (low resolution)",
     "file for google earth"
 )
 e = ''
@@ -22,8 +21,7 @@ def save():
     function to save the kml file
     """
     filename = e.get()
-    processed = pln.simplify_route(data)
-    pln.save_kml_file(processed, filename)
+    pln.save_kml_file(data, filename)
     
     l = Label(root2, text="file has been created. go check into your folder")
     l.grid(row=1, column=0, padx=5, pady=5)
@@ -38,15 +36,11 @@ def main():
     # extract data
     fname = e01.get()
     data = pln.parse_pln_file(fname)
-    data = pln.fix_waypoints(data)
     
     # from image case
     if s11.get() == "from image (lowest resolution)":
         pln.display(data)
     
-    # cartopy case
-    elif s11.get() == "cartopy (low resolution)":
-        pln.mapview(data)
     
     # kml file case
     elif s11.get() == "file for google earth":
