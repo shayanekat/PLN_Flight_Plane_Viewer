@@ -1,16 +1,12 @@
 #!/usr/bin/env python
 
 """
-From https://github.com/hankhank10/msfs-pln-file-parser/blob/main/parse_pln.py
-credit to hankhank10, modified my myself
 Shayane Kachera
 Local package
 """
 
-import xmltodict
 import matplotlib.pyplot as plt
-import json
-import cartopy.crs as ccrs
+# import cartopy.crs as ccrs
 import simplekml
 
 #%% function definition part
@@ -24,122 +20,37 @@ def parse_pln_file(filename):
     Returns:
         dictionnary: python dictionnary contain all data
     """
-    with open(filename, 'r') as xmlfile:
-        xml_string = xmlfile.read()
+    with open(filename, 'r') as f:
+        # init
+        dic = {}
+        X, Y = [], []
+        
+        for l in f.readlines():
+            # set title
+            if l[9:14] == "Title":
+                dic["title"] = l[15:27]
+            
+            # set coordinates
+            if l[13:26] == "WorldPosition":
+                # latitude
+                raw = l[27:].split(',')
+                raw0 = raw[0].split(' ')
+                y = float(raw0[0][1:3]) + float(raw0[1][:-1])/60 + float(raw0[-1][:-1])/3600
+                if raw[0][0] == 'S':
+                    y *= -1
+                Y.append(-y+90)
+                
+                # longitude
+                raw1 = raw[1].split(' ')
+                x = float(raw1[0][1:-2]) + float(raw1[1][:-1])/60 + float(raw1[-1][:-1])/3600
+                if raw[1][0] == 'W':
+                    x *= -1
+                X.append(x+180)
+            dic['latitudes'] = Y
+            dic['longitudes'] = X
+        
+        return dic
 
-    xml_string = xml_string.replace('°', '')
-
-    output_dictionary = xmltodict.parse(xml_string)
-    return output_dictionary
-
-
-def fix_waypoints(source_dictionary):
-    """
-    function to process waypoints coordinates and convert into decimal coordinates
-
-    Args:
-        source_dictionary (dictionnary): the original dicitionnary
-
-    Returns:
-        dictonnary: dictionnary with the first process done
-    """
-    for waypoint in source_dictionary['SimBase.Document']['FlightPlan.FlightPlan']['ATCWaypoint']:
-
-        # Split into constituent parts
-        waypoint['Latitude'] = waypoint['WorldPosition'].split(",")[0]
-        waypoint['Longitude'] = waypoint['WorldPosition'].split(",")[1]
-        waypoint['Altitude'] = waypoint['WorldPosition'].split(",")[2]
-
-        # Tidy altitude
-        waypoint['Altitude'] = float(waypoint['Altitude'])
-
-        # Work out latitude
-        latitude_direction = waypoint['Latitude'][0]
-        rest_of_latitude = waypoint['Latitude'][1:]
-
-        latitude_degrees = rest_of_latitude.split(" ")[0]
-        latitude_minutes = rest_of_latitude.split(" ")[1]
-        latitude_seconds = rest_of_latitude.split(" ")[2]
-
-        latitude_minutes = latitude_minutes.split("'")[0]
-        latitude_seconds = latitude_seconds.split('"')[0]
-
-        latitude_degrees = int(latitude_degrees.replace('Â', ''))
-        latitude_minutes = int(latitude_minutes)
-        latitude_seconds = float(latitude_seconds)
-
-        latitude_decimal = latitude_degrees + (latitude_minutes / 60) + (latitude_seconds / 3600)
-        # print(str(latitude_degrees), str(latitude_minutes), str(latitude_seconds), ">", str(latitude_decimal))
-
-        if latitude_direction == "S":
-            latitude_decimal = -latitude_decimal
-        waypoint['DecimalLatitude'] = latitude_decimal
-
-        # Work out longitude
-        longitude_direction = waypoint['Longitude'][0]
-        rest_of_longitude = waypoint['Longitude'][1:]
-
-        longitude_degrees = rest_of_longitude.split(" ")[0]
-        longitude_minutes = rest_of_longitude.split(" ")[1]
-        longitude_seconds = rest_of_longitude.split(" ")[2]
-
-        longitude_minutes = longitude_minutes.split("'")[0]
-        longitude_seconds = longitude_seconds.split('"')[0]
-
-        longitude_degrees = int(longitude_degrees.replace('Â', ''))
-        longitude_minutes = int(longitude_minutes)
-        longitude_seconds = float(longitude_seconds)
-
-        longitude_decimal = longitude_degrees + (longitude_minutes / 60) + (longitude_seconds / 3600)
-        #print(str(longitude_degrees), str(longitude_minutes), str(longitude_seconds), ">", str(longitude_decimal))
-
-        if longitude_direction == "W":
-            longitude_decimal = -longitude_decimal
-        waypoint['DecimalLongitude'] = longitude_decimal
-
-    return source_dictionary
-
-
-def simplify_route(source_dictionary):
-    """
-    function to simplify the dictionnary by removing all unecessary data
-
-    Args:
-        source_dictionary (dictionnary): the data with first process
-
-    Returns:
-        dictionnary: output dictionnary that is simplified
-    """
-    output_dictionary = []
-
-    a = 0
-    for waypoint in source_dictionary['SimBase.Document']['FlightPlan.FlightPlan']['ATCWaypoint']:
-        this_waypoint = {
-            'id': a,
-            'latitude': waypoint['DecimalLatitude'],
-            'longitude': waypoint['DecimalLongitude']
-        }
-        output_dictionary.append(this_waypoint)
-        a = a + 1
-
-    output_dictionary = {
-        'status': 'success',
-        'waypoints': output_dictionary
-    }
-
-    return output_dictionary
-
-
-def save_json_file(output_filename, source_dictionary):
-    """
-    function to save the data as a json file
-
-    Args:
-        output_filename (string): the name of the json file that will be created
-        source_dictionary (dictionnary): the data you want to convert into json file
-    """
-    with open(output_filename, 'w') as jsonfile:
-        json.dump(source_dictionary['SimBase.Document']['FlightPlan.FlightPlan'], jsonfile, indent=4)
 
 
 def display(source_dictionary):
@@ -225,8 +136,4 @@ def save_kml_file(source_dictionnary, filename):
 
 #%% test part
 if __name__ == '__main__':
-    data = parse_pln_file('example.pln') # parse data
-    data = fix_waypoints(data) # first process
-    data_processed = simplify_route(data) # second process
-    save_kml_file(data_processed) # generate kml file
-    # pln_parser.mapview(data) # view data
+    parse_pln_file('example.pln')
