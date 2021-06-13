@@ -5,6 +5,8 @@ Main script making the GUI with python tkinter
 
 from tkinter import *
 import pln_parser as pln
+from tkinter import filedialog
+
 #%% BACKEND
 # init variables
 methods = (
@@ -14,6 +16,7 @@ methods = (
 e = ''
 data = ''
 root2 = ''
+filetype = r"*.pln"
 
 # functions
 def save():
@@ -34,7 +37,7 @@ def main():
     global e, data, root2
     
     # extract data
-    fname = e01.get()
+    fname = e01
     data = pln.parse_pln_file(fname)
     
     # from image case
@@ -66,8 +69,9 @@ root.title("PLN file Viewer")
 l00 = Label(root, text="pln file complete path : ")
 l00.grid(row=0, column=0, padx=5, pady=5)
 
-e01 = Entry(root)
-e01.grid(row=0, column=1, padx=5, pady=5)
+e01 = filedialog.askopenfilename(initialdir = "C:", title = "Select a File")
+l01 = Label(root, text=e01)
+l01.grid(row=0, column=1, padx=5, pady=5)
 
 # second row : display method choice
 l10 = Label(root, text="choose the method of display : ")
