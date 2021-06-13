@@ -17,13 +17,15 @@ e = ''
 data = ''
 root2 = ''
 filetype = r"*.pln"
+f = ''
 
 # functions
 def save():
     """
     function to save the kml file
     """
-    filename = e.get()
+    filename = f + "\\" + e.get()
+    
     pln.save_kml_file(data, filename)
     
     l = Label(root2, text="file has been created. go check into your folder")
@@ -34,7 +36,7 @@ def main():
     """
     main function that is run when clicking on the button on first page
     """
-    global e, data, root2
+    global e, data, root2, f
     
     # extract data
     fname = e01
@@ -54,6 +56,7 @@ def main():
         l1 = Label(root2, text="enter file name for the kml file (it will be created were you have installed this app", wraplength=400)
         l1.grid(row=0, column=0, padx=5, pady=5)
         
+        f = filedialog.askdirectory()
         e = Entry(root2)
         e.grid(row=0, column=1, padx=5, pady=5)
         
